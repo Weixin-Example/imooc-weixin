@@ -2,7 +2,6 @@ package com.weixin.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.dom4j.DocumentException;
 
-import com.weixin.po.TextMsg;
 import com.weixin.util.CheckUtil;
 import com.weixin.util.MsgUtil;
 
@@ -54,15 +52,25 @@ public class WeixinServlet extends HttpServlet {
 
 			String msg = null;
 			// 判断消息是否为文本消息
-			if ("text".equals(msgType)) {
-				TextMsg text = new TextMsg();
-				text.setFromUserName(toUserName);
-				text.setToUserName(fromUserName);
-				text.setMsgType("text");
-				text.setCreateTime(new Date().getTime());
-				text.setContent("您发送的消息是: " + content);
-				msg = MsgUtil.textMsgToXml(text);
+			if (MsgUtil.MESSAGE_TEXT.equals(msgType)) {
+				// 内容判断
+				if ("1".equals(content)) {
+					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.firstMenu());
+				} else if ("2".equals(content)) {
+					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.secondMenu());
+
+				} else if ("?".equals(content) || "？".equals(content)) {
+					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.menuText());
+
+				}
+			} else if (MsgUtil.MESSAGE_EVENT.equals(msgType)) {
+				String eventType = map.get("Event");
+				// 关注逻辑
+				if (MsgUtil.MESSAGE_SUBSCRIBE.equals(eventType)) {
+					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.menuText());
+				}
 			}
+			System.out.println(msg);
 			// 返回消息
 			out.print(msg);
 

@@ -2,6 +2,7 @@ package com.weixin.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,22 @@ import com.weixin.po.TextMsg;
  * @desc	进行消息转换的工具类
  */
 public class MsgUtil {
+
+	/**
+	 * 定义微信事件类型常量
+	 */
+	public static final String MESSAGE_TEXT = "text";
+	public static final String MESSAGE_IMAGE = "image";
+	public static final String MESSAGE_VOICE = "voice";
+	public static final String MESSAGE_VIDEO = "video";
+	public static final String MESSAGE_LINK = "link";
+	public static final String MESSAGE_LOCATION = "location";
+	public static final String MESSAGE_EVENT = "event";
+	public static final String MESSAGE_SUBSCRIBE = "subscribe";
+	public static final String MESSAGE_UNSUBSCRIBE = "unsubscribe";
+	public static final String MESSAGE_CLICK = "click";
+	public static final String MESSAGE_VIEW = "view";
+
 	/**
 	 * xml转为map
 	 * 
@@ -64,5 +81,57 @@ public class MsgUtil {
 		// 设置别名, 将返回的信息变成符合微信平台的格式
 		xstream.alias("xml", textMsg.getClass());
 		return xstream.toXML(textMsg);
+	}
+
+	/**
+	 * 拼接文本消息
+	 * 
+	 * @return
+	 */
+	public static String initText(String toUserName, String fromUserName, String content) {
+		TextMsg text = new TextMsg();
+		text.setFromUserName(toUserName);
+		text.setToUserName(fromUserName);
+		text.setMsgType(MsgUtil.MESSAGE_TEXT);
+		text.setCreateTime(new Date().getTime());
+		text.setContent("您发送的消息是: " + content);
+		return MsgUtil.textMsgToXml(text);
+	}
+
+	/**
+	 * 关注后的菜单显示
+	 * 
+	 * @return
+	 */
+	public static String menuText() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("欢迎您的关注, 请按照菜单提示进行操作: \n\n");
+		sb.append("1. 课程介绍\n");
+		sb.append("2. 慕课网介绍\n");
+		sb.append("回复?调出此菜单.");
+		return sb.toString();
+	}
+
+	/**
+	 * 回复"1"
+	 * 
+	 * @return
+	 */
+	public static String firstMenu() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("本套课程介绍微信公众号开发, 主要涉及公众号介绍.编辑模式介绍,开发模式介绍等");
+		return sb.toString();
+	}
+
+	/**
+	 * 回复"2"
+	 * 
+	 * @return
+	 */
+	public static String secondMenu() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("慕课网是垂直的互联网IT技能免费学习网站。以独家视频教程、在线编程工具、学习计划、问答社区为核心特色。在这里，你可以找到最好的互联网技术牛人，也可以通过免费的在线公开视频课程学习国内领先的互联网IT技术。");
+		sb.append("慕课网课程涵盖前端开发、PHP、Html5、Android、iOS、Swift等IT前沿技术语言，包括基础课程、实用案例、高级分享三大类型，适合不同阶段的学习人群。以纯干货、短视频的形式为平台特点，为在校学生、职场白领提供了一个迅速提升技能、共同分享进步的学习平台。");
+		return sb.toString();
 	}
 }
