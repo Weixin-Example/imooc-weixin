@@ -2,6 +2,7 @@ package com.weixin.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.thoughtworks.xstream.XStream;
+import com.weixin.po.News;
+import com.weixin.po.NewsMsg;
 import com.weixin.po.TextMsg;
 
 /**
@@ -28,6 +31,7 @@ public class MsgUtil {
 	 * 定义微信事件类型常量
 	 */
 	public static final String MESSAGE_TEXT = "text";
+	public static final String MESSAGE_NEWS = "news";
 	public static final String MESSAGE_IMAGE = "image";
 	public static final String MESSAGE_VOICE = "voice";
 	public static final String MESSAGE_VIDEO = "video";
@@ -133,5 +137,51 @@ public class MsgUtil {
 		sb.append("慕课网是垂直的互联网IT技能免费学习网站。以独家视频教程、在线编程工具、学习计划、问答社区为核心特色。在这里，你可以找到最好的互联网技术牛人，也可以通过免费的在线公开视频课程学习国内领先的互联网IT技术。");
 		sb.append("慕课网课程涵盖前端开发、PHP、Html5、Android、iOS、Swift等IT前沿技术语言，包括基础课程、实用案例、高级分享三大类型，适合不同阶段的学习人群。以纯干货、短视频的形式为平台特点，为在校学生、职场白领提供了一个迅速提升技能、共同分享进步的学习平台。");
 		return sb.toString();
+	}
+
+	/**
+	 * 将图文消息对象转换为Xml
+	 * 
+	 * @param newsMsg
+	 * @return
+	 */
+	public static String newsMsgToXml(NewsMsg newsMsg) {
+		XStream xstream = new XStream();
+		// 设置别名, 将返回的信息变成符合微信平台的格式
+		xstream.alias("xml", newsMsg.getClass());
+		xstream.alias("item", new News().getClass());
+		return xstream.toXML(newsMsg);
+	}
+
+	/**
+	 * 图文消息的组装
+	 * 
+	 * @param toUserName
+	 * @param fromUserName
+	 * @return
+	 */
+	public static String initNewsMsg(String toUserName, String fromUserName) {
+		String msg = null;
+		List<News> newsList = new ArrayList<News>();
+		NewsMsg newsMsg = new NewsMsg();
+
+		News news = new News();
+		news.setTitle("慕课网介绍");
+		news.setDescription("慕课网是垂直的互联网IT技能免费学习网站。以独家视频教程、在线编程工具、学习计划、问答社区为核心特色。");
+		news.setPicUrl("http://imooc.ngrok.natapp.cn/imooc-weixin/image/imooc.jpg");
+		news.setUrl("www.imooc.com");
+
+		newsList.add(news);
+
+		// 设置图文消息的属性
+		newsMsg.setToUserName(fromUserName);
+		newsMsg.setFromUserName(toUserName);
+		newsMsg.setCreateTime(new Date().getTime());
+		newsMsg.setMsgType(MESSAGE_NEWS);
+		newsMsg.setArticles(newsList);
+		newsMsg.setArticleCount(newsList.size());
+
+		msg = newsMsgToXml(newsMsg);
+		return msg;
 	}
 }

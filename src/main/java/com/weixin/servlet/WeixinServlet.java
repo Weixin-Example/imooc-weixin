@@ -57,11 +57,9 @@ public class WeixinServlet extends HttpServlet {
 				if ("1".equals(content)) {
 					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.firstMenu());
 				} else if ("2".equals(content)) {
-					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.secondMenu());
-
+					msg = MsgUtil.initNewsMsg(toUserName, fromUserName);
 				} else if ("?".equals(content) || "？".equals(content)) {
 					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.menuText());
-
 				}
 			} else if (MsgUtil.MESSAGE_EVENT.equals(msgType)) {
 				String eventType = map.get("Event");
