@@ -13,6 +13,7 @@ import org.dom4j.DocumentException;
 
 import com.weixin.util.CheckUtil;
 import com.weixin.util.MsgUtil;
+import com.weixin.util.WeixinUtil;
 
 /**
  * @author	Lian
@@ -59,11 +60,20 @@ public class WeixinServlet extends HttpServlet {
 				} else if ("2".equals(content)) {
 					msg = MsgUtil.initNewsMsg(toUserName, fromUserName);
 				} else if ("3".equals(content)) {
-					msg = MsgUtil.initImageMsg(toUserName, fromUserName);
+					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.threeMenu());
 				} else if ("4".equals(content)) {
+					msg = MsgUtil.initImageMsg(toUserName, fromUserName);
+				} else if ("5".equals(content)) {
 					msg = MsgUtil.initMusicMsg(toUserName, fromUserName);
 				} else if ("?".equals(content) || "？".equals(content)) {
 					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.menuText());
+				} else if (content.startsWith("翻译")) {
+					String word = content.replaceAll("^翻译", "").trim();
+					if ("".endsWith(word)) {
+						msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.threeMenu());
+					} else {
+						msg = MsgUtil.initText(toUserName, fromUserName, WeixinUtil.translate(word));
+					}
 				}
 			} else if (MsgUtil.MESSAGE_EVENT.equals(msgType)) {
 				String eventType = map.get("Event");

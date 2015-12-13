@@ -8,8 +8,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONObject;
 
@@ -27,6 +31,10 @@ import com.weixin.menu.ClickButton;
 import com.weixin.menu.Menu;
 import com.weixin.menu.ViewButton;
 import com.weixin.po.AccessToken;
+import com.weixin.trans.Data;
+import com.weixin.trans.Parts;
+import com.weixin.trans.Symbols;
+import com.weixin.trans.TransResult;
 
 /**
  * @author	Lian
@@ -285,7 +293,7 @@ public class WeixinUtil {
 		JSONObject json = doGetStr(url);
 		return json;
 	}
-	
+
 	/**
 	 * 查询菜单
 	 * 
@@ -296,9 +304,71 @@ public class WeixinUtil {
 		String url = DELETE_MENU_URL.replace("ACCESS_TOKEN", token);
 		JSONObject json = doGetStr(url);
 		int result = 0;
-		if(json != null) {
+		if (json != null) {
 			result = json.getInt("errcode");
 		}
 		return result;
+	}
+
+	/**
+	 * 百度翻译单词.词组
+	 * 
+	 * @param source
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static String translate(String source) throws UnsupportedEncodingException {
+		String url = "http://openapi.baidu.com/public/2.0/translate/dict/simple?client_id=CgcGgwoN9GNYK7NGRp0yNbEI&q=KEYWORD&from=auto&to=auto";
+		url = url.replace("KEYWORD", URLEncoder.encode(source, "UTF-8"));
+		JSONObject jsonObject = doGetStr(url);
+		String errno = jsonObject.getString("errno");
+		Object obj = jsonObject.get("data");
+		StringBuffer dst = new StringBuffer();
+		if ("0".equals(errno) && !"[]".equals(obj.toString())) {
+			TransResult transResult = (TransResult) JSONObject.toBean(jsonObject, TransResult.class);
+			Data data = transResult.getData();
+			Symbols symbols = data.getSymbols()[0];
+			String phzh = symbols.getPh_zh()==null ? "" : "中文拼音："+symbols.getPh_zh()+"\n";
+			String phen = symbols.getPh_en()==null ? "" : "英式英标："+symbols.getPh_en()+"\n";
+			String pham = symbols.getPh_am()==null ? "" : "美式英标："+symbols.getPh_am()+"\n";
+			dst.append(phzh + phen + pham);
+
+			Parts[] parts = symbols.getParts();
+			String pat = null;
+			for (Parts part : parts) {
+				pat = (part.getPart() != null && !"".equals(part.getPart())) ? "[" + part.getPart() + "]" : "";
+				String[] means = part.getMeans();
+				dst.append(pat);
+				for (String mean : means) {
+					dst.append(mean + ";");
+				}
+			}
+		} else {
+			dst.append(translateFull(source));
+		}
+		return dst.toString();
+	}
+
+	/**
+	 * 百度翻译句子
+	 * 
+	 * @param source
+	 * @return
+	 */
+	public static String translateFull(String source) {
+		String url = "http://openapi.baidu.com/public/2.0/bmt/translate?client_id=jNg0LPSBe691Il0CG5MwDupw&q=KEYWORD&from=auto&to=auto";
+		try {
+			url = url.replace("KEYWORD", URLEncoder.encode(source, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JSONObject jsonObject = doGetStr(url);
+		StringBuffer dst = new StringBuffer();
+		List<Map> list = (List<Map>) jsonObject.get("trans_result");
+		for (Map map : list) {
+			dst.append(map.get("dst"));
+		}
+		return dst.toString();
 	}
 }
