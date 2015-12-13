@@ -355,6 +355,7 @@ public class WeixinUtil {
 	 * @param source
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static String translateFull(String source) {
 		String url = "http://openapi.baidu.com/public/2.0/bmt/translate?client_id=jNg0LPSBe691Il0CG5MwDupw&q=KEYWORD&from=auto&to=auto";
 		try {
