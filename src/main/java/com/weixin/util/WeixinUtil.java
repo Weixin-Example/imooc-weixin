@@ -53,8 +53,7 @@ public class WeixinUtil {
 	private static final String DELETE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN";
 
 	/**
-	 * Get请求
-	 * 
+	 * 向微信服务器发出Get请求
 	 * @param url
 	 * @return
 	 */
@@ -82,8 +81,7 @@ public class WeixinUtil {
 	}
 
 	/**
-	 * Post请求
-	 * 
+	 * 向微信服务器发出Post请求
 	 * @param url
 	 * @param outStr
 	 * @return
@@ -115,7 +113,6 @@ public class WeixinUtil {
 
 	/**
 	 * 获取access_token方法
-	 * 
 	 * @return
 	 */
 	public static AccessToken getAccessToken() {
@@ -134,7 +131,6 @@ public class WeixinUtil {
 
 	/**
 	 * 文件上传
-	 * 
 	 * @param filePath
 	 * @param accessToken
 	 * @param type
@@ -232,7 +228,6 @@ public class WeixinUtil {
 
 	/**
 	 * 组装菜单
-	 * 
 	 * @return
 	 */
 	public static Menu initMenu() {
@@ -257,17 +252,18 @@ public class WeixinUtil {
 		button32.setType("location_select");
 		button32.setKey("32");
 
+		// 设置两个二级菜单
 		Button button = new Button();
 		button.setName("菜单");
 		button.setSub_button(new Button[] { button31, button32 });
 
+		// 设置三个一级菜单
 		menu.setButton(new Button[] { button11, button21, button });
 		return menu;
 	}
 
 	/**
 	 * 创建菜单
-	 * 
 	 * @param token
 	 * @param menu
 	 * @return
@@ -284,7 +280,6 @@ public class WeixinUtil {
 
 	/**
 	 * 查询菜单
-	 * 
 	 * @param token
 	 * @return
 	 */
@@ -296,7 +291,6 @@ public class WeixinUtil {
 
 	/**
 	 * 查询菜单
-	 * 
 	 * @param token
 	 * @return
 	 */
@@ -312,7 +306,6 @@ public class WeixinUtil {
 
 	/**
 	 * 百度翻译单词.词组
-	 * 
 	 * @param source
 	 * @return
 	 * @throws UnsupportedEncodingException
@@ -328,9 +321,9 @@ public class WeixinUtil {
 			TransResult transResult = (TransResult) JSONObject.toBean(jsonObject, TransResult.class);
 			Data data = transResult.getData();
 			Symbols symbols = data.getSymbols()[0];
-			String phzh = symbols.getPh_zh()==null ? "" : "中文拼音："+symbols.getPh_zh()+"\n";
-			String phen = symbols.getPh_en()==null ? "" : "英式英标："+symbols.getPh_en()+"\n";
-			String pham = symbols.getPh_am()==null ? "" : "美式英标："+symbols.getPh_am()+"\n";
+			String phzh = symbols.getPh_zh() == null ? "" : "中文拼音：" + symbols.getPh_zh() + "\n";
+			String phen = symbols.getPh_en() == null ? "" : "英式英标：" + symbols.getPh_en() + "\n";
+			String pham = symbols.getPh_am() == null ? "" : "美式英标：" + symbols.getPh_am() + "\n";
 			dst.append(phzh + phen + pham);
 
 			Parts[] parts = symbols.getParts();
@@ -351,7 +344,6 @@ public class WeixinUtil {
 
 	/**
 	 * 百度翻译句子
-	 * 
 	 * @param source
 	 * @return
 	 */

@@ -23,8 +23,7 @@ public class WeixinTest {
 		// String mediaId = WeixinUtil.upload(path, token.getToken(), "thumb");
 		// System.out.println(mediaId);
 
-		// String menu =
-		// JSONObject.fromObject(WeixinUtil.initMenu()).toString();
+		// String menu = JSONObject.fromObject(WeixinUtil.initMenu()).toString();
 		// System.out.println(menu);
 		// int result = WeixinUtil.createMenu(token.getToken(), menu);
 		// if(result == 0) {
@@ -43,8 +42,8 @@ public class WeixinTest {
 		// System.out.println(result);
 		// }
 
-		 String result = WeixinUtil.translate("中国足球");
-//		String result = WeixinUtil.translateFull("my name is laobi");
+		String result = WeixinUtil.translate("中国足球");
+		// String result = WeixinUtil.translateFull("my name is laobi");
 		System.out.println(result);
 	}
 }

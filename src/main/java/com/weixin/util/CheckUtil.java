@@ -12,7 +12,15 @@ import java.util.Arrays;
 public class CheckUtil {
 	private static final String TOKEN = "imooc";
 
+	/**
+	 * 校验微信签名
+	 * @param signature
+	 * @param timestamp
+	 * @param nonce
+	 * @return
+	 */
 	public static boolean checkSignature(String signature, String timestamp, String nonce) {
+		// 将给定的参数放入一个数组里面
 		String[] arr = new String[] { TOKEN, timestamp, nonce };
 		// 排序
 		Arrays.sort(arr);
@@ -27,6 +35,11 @@ public class CheckUtil {
 		return temp.equals(signature);
 	}
 
+	/**
+	 * Sha1加密
+	 * @param decript
+	 * @return
+	 */
 	public static String getSha1(String decript) {
 		try {
 			MessageDigest digest = java.security.MessageDigest.getInstance("SHA-1");

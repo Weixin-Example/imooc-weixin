@@ -50,8 +50,7 @@ public class MsgUtil {
 	public static final String MESSAGE_SCANCODE = "scancode_push";
 
 	/**
-	 * xml转为map
-	 * 
+	 * 将微信服务器传来的XML转为Map
 	 * @param request
 	 * @return
 	 * @throws DocumentException
@@ -60,12 +59,14 @@ public class MsgUtil {
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> xmlToMap(HttpServletRequest request) throws DocumentException, IOException {
 		Map<String, String> map = new HashMap<String, String>();
+		// 使用SAXReader解析XML文档
 		SAXReader reader = new SAXReader();
 
 		// 从request中获取输入流
 		InputStream ins = request.getInputStream();
 		Document doc = reader.read(ins);
 
+		// 得到XML文档的根元素
 		Element root = doc.getRootElement();
 
 		// 得到根元素下的所有节点
@@ -81,8 +82,7 @@ public class MsgUtil {
 	}
 
 	/**
-	 * 将文本消息对象转换为Xml
-	 * 
+	 * 将文本消息对象转换为微信服务器需要的XML
 	 * @param textMsg
 	 * @return
 	 */
@@ -95,7 +95,6 @@ public class MsgUtil {
 
 	/**
 	 * 拼接文本消息
-	 * 
 	 * @return
 	 */
 	public static String initText(String toUserName, String fromUserName, String content) {
@@ -110,7 +109,6 @@ public class MsgUtil {
 
 	/**
 	 * 关注后的菜单显示
-	 * 
 	 * @return
 	 */
 	public static String menuText() {
@@ -127,7 +125,6 @@ public class MsgUtil {
 
 	/**
 	 * 回复"1"
-	 * 
 	 * @return
 	 */
 	public static String firstMenu() {
@@ -138,7 +135,6 @@ public class MsgUtil {
 
 	/**
 	 * 回复"2"
-	 * 
 	 * @return
 	 */
 	public static String secondMenu() {
@@ -150,7 +146,6 @@ public class MsgUtil {
 
 	/**
 	 * 回复"3"
-	 * 
 	 * @return
 	 */
 	public static String threeMenu() {
@@ -166,7 +161,6 @@ public class MsgUtil {
 
 	/**
 	 * 将图文消息转换为Xml
-	 * 
 	 * @param newsMsg
 	 * @return
 	 */
@@ -180,7 +174,6 @@ public class MsgUtil {
 
 	/**
 	 * 将图片消息转换为Xml
-	 * 
 	 * @param imageMsg
 	 * @return
 	 */
@@ -193,7 +186,6 @@ public class MsgUtil {
 
 	/**
 	 * 将音乐消息转换为Xml
-	 * 
 	 * @param imageMsg
 	 * @return
 	 */
@@ -206,7 +198,6 @@ public class MsgUtil {
 
 	/**
 	 * 图文消息的组装
-	 * 
 	 * @param toUserName
 	 * @param fromUserName
 	 * @return
@@ -216,13 +207,21 @@ public class MsgUtil {
 		List<News> newsList = new ArrayList<News>();
 		NewsMsg newsMsg = new NewsMsg();
 
+		// 单图文
 		News news = new News();
 		news.setTitle("慕课网介绍");
 		news.setDescription("慕课网是垂直的互联网IT技能免费学习网站。以独家视频教程、在线编程工具、学习计划、问答社区为核心特色。");
 		news.setPicUrl("http://imooc.ngrok.natapp.cn/imooc-weixin/image/imooc.jpg");
 		news.setUrl("www.imooc.com");
-
 		newsList.add(news);
+
+		// 多图文
+		// news = new News();
+		// news.setTitle("慕课网介绍");
+		// news.setDescription("慕课网是垂直的互联网IT技能免费学习网站。以独家视频教程、在线编程工具、学习计划、问答社区为核心特色。");
+		// news.setPicUrl("http://imooc.ngrok.natapp.cn/imooc-weixin/image/imooc.jpg");
+		// news.setUrl("www.imooc.com");
+		// newsList.add(news);
 
 		// 设置图文消息的属性
 		newsMsg.setToUserName(fromUserName);
@@ -238,7 +237,6 @@ public class MsgUtil {
 
 	/**
 	 * 组装图片消息
-	 * 
 	 * @param toUserName
 	 * @param fromUserName
 	 * @return
@@ -260,7 +258,6 @@ public class MsgUtil {
 
 	/**
 	 * 组装音乐消息
-	 * 
 	 * @param toUserName
 	 * @param fromUserName
 	 * @return
