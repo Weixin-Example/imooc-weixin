@@ -45,8 +45,9 @@ public class MsgUtil {
 	public static final String MESSAGE_EVENT = "event";
 	public static final String MESSAGE_SUBSCRIBE = "subscribe";
 	public static final String MESSAGE_UNSUBSCRIBE = "unsubscribe";
-	public static final String MESSAGE_CLICK = "click";
-	public static final String MESSAGE_VIEW = "view";
+	public static final String MESSAGE_CLICK = "CLICK";
+	public static final String MESSAGE_VIEW = "VIEW";
+	public static final String MESSAGE_SCANCODE = "scancode_push";
 
 	/**
 	 * xml转为map
@@ -103,7 +104,7 @@ public class MsgUtil {
 		text.setToUserName(fromUserName);
 		text.setMsgType(MsgUtil.MESSAGE_TEXT);
 		text.setCreateTime(new Date().getTime());
-		text.setContent("您发送的消息是: " + content);
+		text.setContent(content);
 		return MsgUtil.textMsgToXml(text);
 	}
 

@@ -70,7 +70,18 @@ public class WeixinServlet extends HttpServlet {
 				// 关注逻辑
 				if (MsgUtil.MESSAGE_SUBSCRIBE.equals(eventType)) {
 					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.menuText());
+				} else if (MsgUtil.MESSAGE_CLICK.equals(eventType)) {
+					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.menuText());
+				} else if (MsgUtil.MESSAGE_VIEW.equals(eventType)) {
+					String url = map.get("EventKey");
+					msg = MsgUtil.initText(toUserName, fromUserName, url);
+				} else if (MsgUtil.MESSAGE_SCANCODE.equals(eventType)) {
+					String key = map.get("EventKey");
+					msg = MsgUtil.initText(toUserName, fromUserName, key);
 				}
+			} else if (MsgUtil.MESSAGE_LOCATION.equals(msgType)) {
+				String Label = map.get("Label");
+				msg = MsgUtil.initText(toUserName, fromUserName, Label);
 			}
 			System.out.println(msg);
 			// 返回消息
