@@ -58,6 +58,8 @@ public class WeixinServlet extends HttpServlet {
 					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.firstMenu());
 				} else if ("2".equals(content)) {
 					msg = MsgUtil.initNewsMsg(toUserName, fromUserName);
+				}  else if ("3".equals(content)) {
+					msg = MsgUtil.initImageMsg(toUserName, fromUserName);
 				} else if ("?".equals(content) || "？".equals(content)) {
 					msg = MsgUtil.initText(toUserName, fromUserName, MsgUtil.menuText());
 				}

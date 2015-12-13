@@ -16,6 +16,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.thoughtworks.xstream.XStream;
+import com.weixin.po.Image;
+import com.weixin.po.ImageMsg;
 import com.weixin.po.News;
 import com.weixin.po.NewsMsg;
 import com.weixin.po.TextMsg;
@@ -140,7 +142,7 @@ public class MsgUtil {
 	}
 
 	/**
-	 * 将图文消息对象转换为Xml
+	 * 将图文消息转换为Xml
 	 * 
 	 * @param newsMsg
 	 * @return
@@ -151,6 +153,19 @@ public class MsgUtil {
 		xstream.alias("xml", newsMsg.getClass());
 		xstream.alias("item", new News().getClass());
 		return xstream.toXML(newsMsg);
+	}
+
+	/**
+	 * 将图片消息转换为Xml
+	 * 
+	 * @param imageMsg
+	 * @return
+	 */
+	public static String imageMsgToXml(ImageMsg imageMsg) {
+		XStream xstream = new XStream();
+		// 设置别名, 将返回的信息变成符合微信平台的格式
+		xstream.alias("xml", imageMsg.getClass());
+		return xstream.toXML(imageMsg);
 	}
 
 	/**
@@ -182,6 +197,28 @@ public class MsgUtil {
 		newsMsg.setArticleCount(newsList.size());
 
 		msg = newsMsgToXml(newsMsg);
+		return msg;
+	}
+
+	/**
+	 * 组装图片消息
+	 * 
+	 * @param toUserName
+	 * @param fromUserName
+	 * @return
+	 */
+	public static String initImageMsg(String toUserName, String fromUserName) {
+		String msg = null;
+		Image image = new Image();
+		image.setMediaId("v6uYSCw8afO-EC7-Olw7xkmu-Eg8E8l2ftdIsnDjnoa6sCkOpDct-h_OyGo6VDug");
+
+		ImageMsg imageMsg = new ImageMsg();
+		imageMsg.setFromUserName(toUserName);
+		imageMsg.setToUserName(fromUserName);
+		imageMsg.setMsgType(MESSAGE_IMAGE);
+		imageMsg.setCreateTime(new Date().getTime());
+		imageMsg.setImage(image);
+		msg = imageMsgToXml(imageMsg);
 		return msg;
 	}
 }

@@ -1,6 +1,9 @@
 package com.weixin.test;
 
+import java.io.IOException;
+
 import com.weixin.po.AccessToken;
+import com.weixin.util.MsgUtil;
 import com.weixin.util.WeixinUtil;
 
 /**
@@ -10,8 +13,17 @@ import com.weixin.util.WeixinUtil;
  */
 public class WeixinTest {
 	public static void main(String[] args) {
-		AccessToken token = WeixinUtil.getAccessToken();
-		System.out.println("票据: " + token.getToken());
-		System.out.println("有效时间: " + token.getExpiresIn());
+		try {
+			AccessToken token = WeixinUtil.getAccessToken();
+			System.out.println("票据: " + token.getToken());
+			System.out.println("有效时间: " + token.getExpiresIn());
+
+			String path = "D:/imooc.jpg";
+			String mediaId = WeixinUtil.upload(path, token.getToken(), MsgUtil.MESSAGE_IMAGE);
+			System.out.println(mediaId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
