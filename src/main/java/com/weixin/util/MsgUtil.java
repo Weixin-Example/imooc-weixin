@@ -18,6 +18,8 @@ import org.dom4j.io.SAXReader;
 import com.thoughtworks.xstream.XStream;
 import com.weixin.po.Image;
 import com.weixin.po.ImageMsg;
+import com.weixin.po.Music;
+import com.weixin.po.MusicMsg;
 import com.weixin.po.News;
 import com.weixin.po.NewsMsg;
 import com.weixin.po.TextMsg;
@@ -35,6 +37,7 @@ public class MsgUtil {
 	public static final String MESSAGE_TEXT = "text";
 	public static final String MESSAGE_NEWS = "news";
 	public static final String MESSAGE_IMAGE = "image";
+	public static final String MESSAGE_MUSIC = "music";
 	public static final String MESSAGE_VOICE = "voice";
 	public static final String MESSAGE_VIDEO = "video";
 	public static final String MESSAGE_LINK = "link";
@@ -169,6 +172,19 @@ public class MsgUtil {
 	}
 
 	/**
+	 * 将音乐消息转换为Xml
+	 * 
+	 * @param imageMsg
+	 * @return
+	 */
+	public static String musicMsgToXml(MusicMsg musicMsg) {
+		XStream xstream = new XStream();
+		// 设置别名, 将返回的信息变成符合微信平台的格式
+		xstream.alias("xml", musicMsg.getClass());
+		return xstream.toXML(musicMsg);
+	}
+	
+	/**
 	 * 图文消息的组装
 	 * 
 	 * @param toUserName
@@ -219,6 +235,32 @@ public class MsgUtil {
 		imageMsg.setCreateTime(new Date().getTime());
 		imageMsg.setImage(image);
 		msg = imageMsgToXml(imageMsg);
+		return msg;
+	}
+	
+	/**
+	 * 组装音乐消息
+	 * 
+	 * @param toUserName
+	 * @param fromUserName
+	 * @return
+	 */
+	public static String initMusicMsg(String toUserName, String fromUserName) {
+		String msg = null;
+		Music music = new Music();
+		music.setThumbMediaId("6Q8yueZMpp0VMF8SSyOrQg4SpZ4IjeOtB3qrW2Q8L0ukXNJd3sz9jrRgVwLwm000");
+		music.setTitle("步虚词");
+		music.setDescription("轻音乐, 超好听");
+		music.setMusicUrl("http://imooc.ngrok.natapp.cn/imooc-weixin/music/bxc.mp3");
+		music.setHQMusicUrl("http://imooc.ngrok.natapp.cn/imooc-weixin/music/bxc.mp3");
+
+		MusicMsg musicMsg = new MusicMsg();
+		musicMsg.setFromUserName(toUserName);
+		musicMsg.setToUserName(fromUserName);
+		musicMsg.setMsgType(MESSAGE_MUSIC);
+		musicMsg.setCreateTime(new Date().getTime());
+		musicMsg.setMusic(music);
+		msg = musicMsgToXml(musicMsg);
 		return msg;
 	}
 }

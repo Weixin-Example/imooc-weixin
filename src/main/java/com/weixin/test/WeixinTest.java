@@ -3,7 +3,6 @@ package com.weixin.test;
 import java.io.IOException;
 
 import com.weixin.po.AccessToken;
-import com.weixin.util.MsgUtil;
 import com.weixin.util.WeixinUtil;
 
 /**
@@ -19,7 +18,10 @@ public class WeixinTest {
 			System.out.println("有效时间: " + token.getExpiresIn());
 
 			String path = "D:/imooc.jpg";
-			String mediaId = WeixinUtil.upload(path, token.getToken(), MsgUtil.MESSAGE_IMAGE);
+			// 上传图片
+//			String mediaId = WeixinUtil.upload(path, token.getToken(), MsgUtil.MESSAGE_IMAGE);
+			// 上传缩略图
+			String mediaId = WeixinUtil.upload(path, token.getToken(), "thumb");
 			System.out.println(mediaId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
