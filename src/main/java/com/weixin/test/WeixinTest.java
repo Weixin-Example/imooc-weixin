@@ -1,7 +1,5 @@
 package com.weixin.test;
 
-import net.sf.json.JSONObject;
-
 import com.weixin.po.AccessToken;
 import com.weixin.util.WeixinUtil;
 
@@ -23,13 +21,23 @@ public class WeixinTest {
 //			String mediaId = WeixinUtil.upload(path, token.getToken(), "thumb");
 //			System.out.println(mediaId);
 		
-		String menu = JSONObject.fromObject(WeixinUtil.initMenu()).toString();
-		System.out.println(menu);
-		int result = WeixinUtil.createMenu(token.getToken(), menu);
+//		String menu = JSONObject.fromObject(WeixinUtil.initMenu()).toString();
+//		System.out.println(menu);
+//		int result = WeixinUtil.createMenu(token.getToken(), menu);
+//		if(result == 0) {
+//			System.out.println("create menu success");
+//		} else {
+//			System.out.println("errcode: " + result);
+//		}
+		
+//		JSONObject json = WeixinUtil.queryMenu(token.getToken());
+//		System.out.println(json);
+		
+		int result = WeixinUtil.deleteMenu(token.getToken());
 		if(result == 0) {
-			System.out.println("create menu success");
+			System.out.println("delete menu success");
 		} else {
-			System.out.println("errcode: " + result);
+			System.out.println(result);
 		}
 	}
 }

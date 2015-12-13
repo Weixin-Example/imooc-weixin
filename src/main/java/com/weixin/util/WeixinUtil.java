@@ -41,6 +41,8 @@ public class WeixinUtil {
 	private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 	private static final String UPLOAD_URL = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE";
 	private static final String CREATE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
+	private static final String QUERY_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN";
+	private static final String DELETE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN";
 
 	/**
 	 * Get请求
@@ -77,8 +79,8 @@ public class WeixinUtil {
 	 * @param url
 	 * @param outStr
 	 * @return
-	 * @throws IOException 
-	 * @throws ClientProtocolException 
+	 * @throws IOException
+	 * @throws ClientProtocolException
 	 */
 	@SuppressWarnings("resource")
 	public static JSONObject doPostStr(String url, String outStr) {
@@ -267,6 +269,34 @@ public class WeixinUtil {
 		String url = CREATE_MENU_URL.replace("ACCESS_TOKEN", token);
 		JSONObject json = doPostStr(url, menu);
 		if (json != null) {
+			result = json.getInt("errcode");
+		}
+		return result;
+	}
+
+	/**
+	 * 查询菜单
+	 * 
+	 * @param token
+	 * @return
+	 */
+	public static JSONObject queryMenu(String token) {
+		String url = QUERY_MENU_URL.replace("ACCESS_TOKEN", token);
+		JSONObject json = doGetStr(url);
+		return json;
+	}
+	
+	/**
+	 * 查询菜单
+	 * 
+	 * @param token
+	 * @return
+	 */
+	public static int deleteMenu(String token) {
+		String url = DELETE_MENU_URL.replace("ACCESS_TOKEN", token);
+		JSONObject json = doGetStr(url);
+		int result = 0;
+		if(json != null) {
 			result = json.getInt("errcode");
 		}
 		return result;
