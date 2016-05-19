@@ -15,8 +15,6 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -35,6 +33,8 @@ import com.weixin.trans.Data;
 import com.weixin.trans.Parts;
 import com.weixin.trans.Symbols;
 import com.weixin.trans.TransResult;
+
+import net.sf.json.JSONObject;
 
 /**
  * @author	Lian
@@ -59,6 +59,7 @@ public class WeixinUtil {
 	 */
 	@SuppressWarnings({ "resource" })
 	public static JSONObject doGetStr(String url) {
+//		HttpClientBuilder builder = HttpClientBuilder.create();
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(url);
 		JSONObject json = null;
@@ -290,7 +291,7 @@ public class WeixinUtil {
 	}
 
 	/**
-	 * 查询菜单
+	 * 删除菜单
 	 * @param token
 	 * @return
 	 */

@@ -8,11 +8,6 @@
 	<name>imooc-weixin Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
-	<!-- Repository -->
-	<!-- <repositories> <repository> <id>maven.oschina.net</id> <name>maven 
-		oschina reposotiory</name> <url>http://maven.oschina.net/</url> </repository> 
-		</repositories> -->
-
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>

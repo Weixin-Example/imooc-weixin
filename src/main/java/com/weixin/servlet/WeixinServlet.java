@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import com.weixin.util.WeixinUtil;
  * @time	2015年12月11日 上午1:44:15
  * @desc	微信后台调用的Get和Post方法
  */
+@WebServlet("/wx.do")
 public class WeixinServlet extends HttpServlet {
 	private static final long serialVersionUID = -2836724667530087285L;
 

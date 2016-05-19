@@ -3,14 +3,14 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-	<!-- 配置Servlet -->
-	<servlet>
+	<!-- 配置Servlet, 覆盖代码中的@WebServlet配置 -->
+	<!-- <servlet>
 		<servlet-name>weixinServlet</servlet-name>
 		<servlet-class>com.weixin.servlet.WeixinServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>weixinServlet</servlet-name>
 		<url-pattern>/wx.do</url-pattern>
-	</servlet-mapping>
-  <display-name>Archetype Created Web Application</display-name>
+	</servlet-mapping> -->
+	<display-name>Archetype Created Web Application</display-name>
 </web-app>
